@@ -19,10 +19,10 @@ namespace TerrarianAbilites.UI
 		public override void OnInitialize()
 		{
 			minorSkillSlot = new MinorSkillSlot();
-			minorSkillSlot.Left.Set(15, 0f);
-			minorSkillSlot.Top.Set(20, 0f);
-			minorSkillSlot.Width.Set(24f, 0f);
-			minorSkillSlot.Height.Set(24f, 1f);
+			minorSkillSlot.Left.Set(600f, 0f);
+			minorSkillSlot.Top.Set(20f, 0f);
+			minorSkillSlot.Width.Set(20f, 0f);
+			minorSkillSlot.Height.Set(20f, 1f);
 
 			Append(minorSkillSlot);
 		}
