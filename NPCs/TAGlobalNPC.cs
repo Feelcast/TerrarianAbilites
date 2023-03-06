@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace TerrarianAbilites.NPCs
 {
@@ -12,9 +13,11 @@ namespace TerrarianAbilites.NPCs
         public override bool InstancePerEntity => true;
         public bool locked;
 		public int markCount;
+		public int lockCounter;
 		public bool stunned;
 		public bool slowed;
 		public static Texture2D crosshair;
+		public static Player currentPlayer;
         public override void ResetEffects(NPC npc) {
 			stunned = false;
 			slowed = false;
@@ -29,9 +32,17 @@ namespace TerrarianAbilites.NPCs
 		public override void UpdateLifeRegen(NPC npc, ref int damage) {
 			
 		}
+        public override void SetStaticDefaults()
+        {           
+            base.SetStaticDefaults();
+        }
 
-
-		public override void DrawEffects(NPC npc, ref Color drawColor) {
+        public override void OnSpawn(NPC npc, Terraria.DataStructures.IEntitySource source)
+        {
+            currentPlayer = Main.player[Main.myPlayer];
+            base.OnSpawn(npc, source);
+        }
+        public override void DrawEffects(NPC npc, ref Color drawColor) {
 			if (markCount == 3) {
 				if (Main.rand.Next(4) < 3) {
 					int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, DustID.Smoke, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default(Color), 3.5f);
@@ -46,6 +57,7 @@ namespace TerrarianAbilites.NPCs
 				Lighting.AddLight(npc.position, 0.1f, 0.2f, 0.7f);
 			}
 		}
+
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
 			if (locked)
@@ -71,22 +83,69 @@ namespace TerrarianAbilites.NPCs
 
         public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
         {
-			// put demon mark code here
+            // put demon mark code here
+            TAModPlayer skillPlayer = player.GetModPlayer<TAModPlayer>();
+			if (skillPlayer.canDemonMark)
+			{
+                if (markCount < 3)
+                {
+                    markCount++;
+                }
+                else
+                {
+                    Projectile.NewProjectile(npc.GetSource_OnHit(npc), npc.Center, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 40, 0, player.whoAmI, 0, 0);
+                    npc.StrikeNPC(40, 0, 0);
+                    markCount = 0;
+                    skillPlayer.canDemonMark = false;
+                }
+            }
+           
+
             base.OnHitByItem(npc, player, item, damage, knockback, crit);
         }
         public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
         {
-			//put bullseye lock code here
+            //put bullseye lock code here
+            //currentPlayer = Main.player[Main.myPlayer];
+            TAModPlayer skillPlayer = currentPlayer.GetModPlayer<TAModPlayer>();
+            if (skillPlayer.canLock)
+			{
+				locked = true;
+				skillPlayer.canLock = false;
+			}
             base.OnHitByProjectile(npc, projectile, damage, knockback, crit);
         }
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
 			// put bullseye lock code here
+			if (locked)
+			{
+				crit = true;
+			}
             return base.StrikeNPC(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
         }
         public override void PostAI(NPC npc)
         {
-			//demon mark and bullseye lock
+            //demon mark and bullseye lock
+            
+            TAModPlayer skillPlayer = currentPlayer.GetModPlayer<TAModPlayer>();
+            if (skillPlayer.canLock && Vector2.Distance(Main.MouseWorld, npc.Center) <= 30f)
+			{
+				if (Main.mouseRight)
+				{
+					locked = true;
+					skillPlayer.canLock = false;
+				}
+			}
+			if (locked)
+			{
+				lockCounter++;
+			}
+			if (lockCounter >= 900)
+			{
+				locked = false;
+				lockCounter = 0;
+			}
             base.PostAI(npc);
         }
     }

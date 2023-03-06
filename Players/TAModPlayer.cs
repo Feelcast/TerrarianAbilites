@@ -117,8 +117,9 @@ namespace TerrarianAbilites
 		{
             Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
             if (MinorSkill.Name == "Fire spark")
-			{ 
-				Projectile.NewProjectile(MinorSkill.GetSource_Accessory(MinorSkill), Player.Center, shootDirection*MinorSkill.shootSpeed, MinorSkill.shoot, MinorSkill.damage, Player.whoAmI, 0, 0);
+			{
+				Terraria.Audio.SoundEngine.PlaySound(MinorSkill.UseSound, Player.Center);
+				Projectile.NewProjectile(MinorSkill.GetSource_Accessory(MinorSkill), Player.Center, shootDirection*MinorSkill.shootSpeed, MinorSkill.shoot, MinorSkill.damage, MinorSkill.knockBack, Player.whoAmI, 0, 0);
 			}
 		}
 		public void SkillTwoPerform()
@@ -136,10 +137,12 @@ namespace TerrarianAbilites
             switch (SkillThree.Name)
 			{
 				case "Demon mark":
-					canDemonMark = true;
+                    Terraria.Audio.SoundEngine.PlaySound(SkillThree.UseSound, Player.Center);
+                    canDemonMark = true;
 					break;
 				case "Bullseye lock":
-					canLock = true;
+                    Terraria.Audio.SoundEngine.PlaySound(SkillThree.UseSound, Player.Center);
+                    canLock = true;
 					break;
 			}
 		}

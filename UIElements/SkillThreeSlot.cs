@@ -15,7 +15,7 @@ namespace TerrarianAbilites.UI
 	// If you want more control, you might need to write your own UIElement.
 	// I've added basic functionality for validating the item attempting to be placed in the slot via the validItem Func. 
 	// See ExamplePersonUI for usage and use the Awesomify chat option of Example Person to see in action.
-	internal class MinorSkillSlot : UIElement
+	internal class SkillThreeSlot : UIElement
 	{
 		internal Item Item;
 		private readonly int _context;
@@ -23,7 +23,7 @@ namespace TerrarianAbilites.UI
 		internal Func<Item, bool> ValidItemFunc;
 		public TAModPlayer playerSkill;
 
-		public MinorSkillSlot(int context = ItemSlot.Context.BankItem, float scale = 1f) {
+		public SkillThreeSlot(int context = ItemSlot.Context.BankItem, float scale = 1f) {
 			_context = context;
 			_scale = scale;
 			Item = new Item();
@@ -58,7 +58,7 @@ namespace TerrarianAbilites.UI
         {
             Player player = Main.player[Main.myPlayer];
             playerSkill = player.GetModPlayer<TAModPlayer>();
-            playerSkill.MinorSkill = Item;
+            playerSkill.SkillThree = Item;
             base.Update(gameTime);
         }
     }
