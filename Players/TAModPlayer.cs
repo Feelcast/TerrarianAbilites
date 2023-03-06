@@ -20,17 +20,18 @@ namespace TerrarianAbilites
 	// several effects and items in ExampleMod. See SimpleModPlayer for a very simple example of how ModPlayer classes work.
 	public class TAModPlayer : ModPlayer
 	{
+
 		public Item MinorSkill;
 		public Item SkillTwo;
 		public Item SkillThree;
 		public Item MajorSkill;
-		public ModKeybind MinorSkillKey;
-		public ModKeybind SkillTwoKey;
-		public ModKeybind SkillThreeKey;
-		public ModKeybind MajorSkillKey;
-		public Vector2 shootDirection;
+		public static ModKeybind MinorSkillKey;
+		public static ModKeybind SkillTwoKey;
+		public static ModKeybind SkillThreeKey;
+		public static ModKeybind MajorSkillKey;
 		public bool canLock;
 		public bool canDemonMark;
+		public  static List<String> projectileBased = new List<String> { "Fire spark", "Electric zap" };
 		public override void ResetEffects() {
 			
 		}
@@ -114,24 +115,25 @@ namespace TerrarianAbilites
 
 		public void MinorSkillPerform()
 		{
-			if (MinorSkill.Name == "Fire spark")
-			{
-				shootDirection = Player.DirectionTo(Main.MouseWorld);
+            Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
+            if (MinorSkill.Name == "Fire spark")
+			{ 
 				Projectile.NewProjectile(MinorSkill.GetSource_Accessory(MinorSkill), Player.Center, shootDirection*MinorSkill.shootSpeed, MinorSkill.shoot, MinorSkill.damage, Player.whoAmI, 0, 0);
 			}
 		}
 		public void SkillTwoPerform()
 		{
+            Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
             if (SkillTwo.Name == "Electric zap")
             {
-                shootDirection = Player.DirectionTo(Main.MouseWorld);
                 Projectile.NewProjectile(SkillTwo.GetSource_Accessory(SkillTwo), Player.Center, shootDirection * SkillTwo.shootSpeed, SkillTwo.shoot, SkillTwo.damage, Player.whoAmI, 0, 0);
             }
         }
 
 		public void SkillThreePerform()
 		{
-			switch (SkillThree.Name)
+            Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
+            switch (SkillThree.Name)
 			{
 				case "Demon mark":
 					canDemonMark = true;

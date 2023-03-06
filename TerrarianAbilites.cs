@@ -1,4 +1,8 @@
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria.ModLoader;
+using Terraria.UI;
+using TerrarianAbilites.UI;
 
 namespace TerrarianAbilites
 {
@@ -34,7 +38,17 @@ public override void UpdateUI(GameTime gameTime)
 }
 	 */
     public class TerrarianAbilites : Mod
-	{
-	}
+    {
+        internal SkillBar skillBar;
+        private UserInterface _skillBar; 
+        public override void Load()
+        {
+            skillBar = new SkillBar();
+            skillBar.Activate();
+            _skillBar = new UserInterface();
+            _skillBar.SetState(skillBar);
+        }
+
+    }
 
 }

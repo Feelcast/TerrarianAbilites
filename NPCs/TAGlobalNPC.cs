@@ -9,11 +9,12 @@ namespace TerrarianAbilites.NPCs
 {
 	public class TAGlobalNPC : GlobalNPC
 	{
-		public bool locked;
+        public override bool InstancePerEntity => true;
+        public bool locked;
 		public int markCount;
 		public bool stunned;
 		public bool slowed;
-		Texture2D crosshair;
+		public static Texture2D crosshair;
         public override void ResetEffects(NPC npc) {
 			stunned = false;
 			slowed = false;
@@ -22,7 +23,7 @@ namespace TerrarianAbilites.NPCs
 		public override void SetDefaults(NPC npc) {
 			markCount = 0;
 			locked = false;
-			crosshair = ModContent.Request<Texture2D>("TerrarianAbilities/Sprites/Lock").Value;
+			crosshair = ModContent.Request<Texture2D>("TerrarianAbilites/Sprites/Lock").Value;
 		}
 
 		public override void UpdateLifeRegen(NPC npc, ref int damage) {

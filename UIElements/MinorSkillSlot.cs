@@ -34,9 +34,7 @@ namespace ExampleMod.UI
 		}
 
         public override void OnInitialize()
-        {
-            Player player = Main.player[Main.myPlayer];
-            playerSkill = player.GetModPlayer<TAModPlayer>();
+        {            
             base.OnInitialize();
         }
         protected override void DrawSelf(SpriteBatch spriteBatch) {
@@ -57,8 +55,10 @@ namespace ExampleMod.UI
 		}
 
         public override void Update(GameTime gameTime)
-        {			
-			playerSkill.MinorSkill = Item;
+        {
+            Player player = Main.player[Main.myPlayer];
+            playerSkill = player.GetModPlayer<TAModPlayer>();
+            playerSkill.MinorSkill = Item;
             base.Update(gameTime);
         }
     }
