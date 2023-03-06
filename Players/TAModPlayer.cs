@@ -25,15 +25,22 @@ namespace TerrarianAbilites
 		public Item SkillThree;
 		public Item MajorSkill;
 		public ModKeybind MinorSkillKey;
+		public ModKeybind SkillTwoKey;
+		public ModKeybind SkillThreeKey;
+		public ModKeybind MajorSkillKey;
 		public Vector2 shootDirection;
-
+		public bool canLock;
+		public bool canDemonMark;
 		public override void ResetEffects() {
 			
 		}
 
         public override void Initialize()
         {
-			MinorSkillKey = KeybindLoader.RegisterKeybind(Mod, "Minor Skill", "F");
+			MinorSkillKey = KeybindLoader.RegisterKeybind(Mod, "Minor skill", "F");
+			SkillTwoKey = KeybindLoader.RegisterKeybind(Mod, "Skill two", "G");
+			SkillThreeKey = KeybindLoader.RegisterKeybind(Mod, "Skill three", "V");
+            MajorSkillKey = KeybindLoader.RegisterKeybind(Mod, "Major skill", "B");
             base.Initialize();
         }
         public override void OnEnterWorld(Player player) {
@@ -90,6 +97,18 @@ namespace TerrarianAbilites
 			{
 				MinorSkillPerform();
 			}
+			if(SkillTwoKey.JustReleased && SkillTwo != null)
+			{
+				SkillTwoPerform();
+			}
+			if(SkillThreeKey.JustReleased && SkillThree != null)
+			{
+				SkillThreePerform();
+			}
+			if(MajorSkillKey.JustReleased && MajorSkill != null)
+			{
+				MajorSkillPerform();
+			}
             base.PreUpdate();
         }
 
@@ -101,6 +120,36 @@ namespace TerrarianAbilites
 				Projectile.NewProjectile(MinorSkill.GetSource_Accessory(MinorSkill), Player.Center, shootDirection*MinorSkill.shootSpeed, MinorSkill.shoot, MinorSkill.damage, Player.whoAmI, 0, 0);
 			}
 		}
+		public void SkillTwoPerform()
+		{
+            if (SkillTwo.Name == "Electric zap")
+            {
+                shootDirection = Player.DirectionTo(Main.MouseWorld);
+                Projectile.NewProjectile(SkillTwo.GetSource_Accessory(SkillTwo), Player.Center, shootDirection * SkillTwo.shootSpeed, SkillTwo.shoot, SkillTwo.damage, Player.whoAmI, 0, 0);
+            }
+        }
 
+		public void SkillThreePerform()
+		{
+			switch (SkillThree.Name)
+			{
+				case "Demon mark":
+					canDemonMark = true;
+					break;
+				case "Bullseye lock":
+					canLock = true;
+					break;
+			}
+		}
+
+		public void MajorSkillPerform()
+		{
+			switch (MajorSkill.Name)
+			{
+				case "Monster dash":
+					break;
+			}
+
+		}
     }
 }
