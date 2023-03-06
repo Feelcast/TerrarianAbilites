@@ -1,0 +1,3 @@
+displayName = Terra abilities and tech
+author = Feelcast
+version = 0.1
