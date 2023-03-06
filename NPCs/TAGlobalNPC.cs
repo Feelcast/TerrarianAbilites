@@ -141,7 +141,7 @@ namespace TerrarianAbilites.NPCs
 			{
 				lockCounter++;
 			}
-			if (lockCounter >= 900)
+			if (lockCounter >= 600)
 			{
 				locked = false;
 				lockCounter = 0;

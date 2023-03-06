@@ -31,8 +31,10 @@ namespace TerrarianAbilites
 		public static ModKeybind MajorSkillKey;
 		public bool canLock;
 		public bool canDemonMark;
-		public  static List<String> projectileBased = new List<String> { "Fire spark", "Electric zap" };
-		public override void ResetEffects() {
+		public  static List<String> projectileBasedMinor = new List<String> { "Fire spark", "Geode thrower" };
+        public static List<String> projectileBasedTwo = new List<String> { "Cold spark", "Electric zap" };
+        public static List<String> projectileBasedThree = new List<String> { "Seed blast", "Plasma bomb" };
+        public override void ResetEffects() {
 			
 		}
 
@@ -116,7 +118,7 @@ namespace TerrarianAbilites
 		public void MinorSkillPerform()
 		{
             Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
-            if (MinorSkill.Name == "Fire spark")
+            if (projectileBasedMinor.Contains(MinorSkill.Name))
 			{
 				Terraria.Audio.SoundEngine.PlaySound(MinorSkill.UseSound, Player.Center);
 				Projectile.NewProjectile(MinorSkill.GetSource_Accessory(MinorSkill), Player.Center, shootDirection*MinorSkill.shootSpeed, MinorSkill.shoot, MinorSkill.damage, MinorSkill.knockBack, Player.whoAmI, 0, 0);
@@ -125,8 +127,9 @@ namespace TerrarianAbilites
 		public void SkillTwoPerform()
 		{
             Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
-            if (SkillTwo.Name == "Electric zap")
+            if (projectileBasedTwo.Contains(SkillTwo.Name))
             {
+                Terraria.Audio.SoundEngine.PlaySound(SkillTwo.UseSound, Player.Center);
                 Projectile.NewProjectile(SkillTwo.GetSource_Accessory(SkillTwo), Player.Center, shootDirection * SkillTwo.shootSpeed, SkillTwo.shoot, SkillTwo.damage, Player.whoAmI, 0, 0);
             }
         }
