@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameInput;
+using Terraria.ModLoader;
 using Terraria.UI;
+using TerrarianAbilites;
 
 namespace ExampleMod.UI
 {
@@ -13,24 +15,31 @@ namespace ExampleMod.UI
 	// If you want more control, you might need to write your own UIElement.
 	// I've added basic functionality for validating the item attempting to be placed in the slot via the validItem Func. 
 	// See ExamplePersonUI for usage and use the Awesomify chat option of Example Person to see in action.
-	internal class VanillaItemSlotWrapper : UIElement
+	internal class MinorSkillSlot : UIElement
 	{
 		internal Item Item;
 		private readonly int _context;
 		private readonly float _scale;
 		internal Func<Item, bool> ValidItemFunc;
+		public TAModPlayer playerSkill;
 
-		public VanillaItemSlotWrapper(int context = ItemSlot.Context.BankItem, float scale = 1f) {
+		public MinorSkillSlot(int context = ItemSlot.Context.BankItem, float scale = 1f) {
 			_context = context;
 			_scale = scale;
 			Item = new Item();
 			Item.SetDefaults(0);
 
-			Width.Set(Main.inventoryBack9Texture.Width * scale, 0f);
-			Height.Set(Main.inventoryBack9Texture.Height * scale, 0f);
+			Width.Set(24f * scale, 0f);
+			Height.Set(24f * scale, 0f);
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
+        public override void OnInitialize()
+        {
+            Player player = Main.player[Main.myPlayer];
+            playerSkill = player.GetModPlayer<TAModPlayer>();
+            base.OnInitialize();
+        }
+        protected override void DrawSelf(SpriteBatch spriteBatch) {
 			float oldScale = Main.inventoryScale;
 			Main.inventoryScale = _scale;
 			Rectangle rectangle = GetDimensions().ToRectangle();
@@ -46,5 +55,11 @@ namespace ExampleMod.UI
 			ItemSlot.Draw(spriteBatch, ref Item, _context, rectangle.TopLeft());
 			Main.inventoryScale = oldScale;
 		}
-	}
+
+        public override void Update(GameTime gameTime)
+        {			
+			playerSkill.MinorSkill = Item;
+            base.Update(gameTime);
+        }
+    }
 }

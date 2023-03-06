@@ -12,7 +12,7 @@ namespace ExampleMod.UI
 {
 	// ExampleUIs visibility is toggled by typing "/coin" in chat. (See CoinCommand.cs)
 	// ExampleUI is a simple UI example showing how to use UIPanel, UIImageButton, and even a custom UIElement.
-	internal class ExampleUI : UIState
+	internal class SkillBar : UIState
 	{
 		public DragableUIPanel CoinCounterPanel;
 		public UIMoneyDisplay MoneyDisplay;
@@ -91,7 +91,7 @@ namespace ExampleMod.UI
 		}
 
 		private void ExampleButtonClicked(UIMouseEvent evt, UIElement listeningElement) {
-			var examplePlayer = Main.LocalPlayer.GetModPlayer<ExamplePlayer>();
+			var examplePlayer = Main.LocalPlayer.GetModPlayer<TAModPlayer>();
 			examplePlayer.nonStopParty = !examplePlayer.nonStopParty;
 			ExampleButton.HoverText = "SendClientChanges Example: Non-Stop Party " + (examplePlayer.nonStopParty ? "On" : "Off");
 		}
