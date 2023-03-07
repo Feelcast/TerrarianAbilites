@@ -13,6 +13,7 @@ using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using TerrarianAbilites.Buffs;
 
 namespace TerrarianAbilites
 {
@@ -25,6 +26,10 @@ namespace TerrarianAbilites
 		public Item SkillTwo;
 		public Item SkillThree;
 		public Item MajorSkill;
+		public int MinorSkillCD;
+		public int SkillTwoCD;
+		public int SkillThreeCD;
+		public int MajorSkillCD;
 		public static ModKeybind MinorSkillKey;
 		public static ModKeybind SkillTwoKey;
 		public static ModKeybind SkillThreeKey;
@@ -44,6 +49,10 @@ namespace TerrarianAbilites
 			SkillTwoKey = KeybindLoader.RegisterKeybind(Mod, "Skill two", "G");
 			SkillThreeKey = KeybindLoader.RegisterKeybind(Mod, "Skill three", "V");
             MajorSkillKey = KeybindLoader.RegisterKeybind(Mod, "Major skill", "B");
+			MinorSkillCD = 0;
+			SkillTwoCD = 0;
+			SkillThreeCD = 0;
+			MajorSkillCD = 0;
             base.Initialize();
         }
         public override void OnEnterWorld(Player player) {
@@ -98,20 +107,60 @@ namespace TerrarianAbilites
         {
 			if(MinorSkillKey.JustPressed && MinorSkill != null)
 			{
-				MinorSkillPerform();
-			}
+				if (MinorSkillCD <= 0)
+				{
+                    MinorSkillPerform();
+					MinorSkillCD = 120;
+					Player.AddBuff(ModContent.BuffType<depletedOne>(), 120);
+                }
+                else
+				{
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Duck, Player.Center);
+                }
+            }
 			if(SkillTwoKey.JustReleased && SkillTwo != null)
 			{
-				SkillTwoPerform();
+                if (SkillTwoCD <= 0)
+                {
+                    SkillTwoPerform();
+                    SkillTwoCD = 300;
+                    Player.AddBuff(ModContent.BuffType<depletedTwo>(), 300);
+                }
+                else
+                {
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Duck, Player.Center);
+                }
 			}
 			if(SkillThreeKey.JustReleased && SkillThree != null)
 			{
-				SkillThreePerform();
+                if (SkillThreeCD <= 0)
+                {
+                    SkillThreePerform();
+                    SkillThreeCD = 900;
+                    Player.AddBuff(ModContent.BuffType<depletedThree>(), 900);
+                }
+                else
+                {
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Duck, Player.Center);
+                }
 			}
 			if(MajorSkillKey.JustReleased && MajorSkill != null)
 			{
-				MajorSkillPerform();
+                if (MajorSkillCD <= 0)
+                {
+                    MajorSkillPerform();
+                    MajorSkillCD = 3000;
+                    Player.AddBuff(ModContent.BuffType<depletedFour>(), 3000);
+                }
+                else
+                {
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Duck, Player.Center);
+                }
 			}
+			MinorSkillCD --;
+			SkillTwoCD --;
+			SkillThreeCD --;
+			MajorSkillCD --;
             base.PreUpdate();
         }
 

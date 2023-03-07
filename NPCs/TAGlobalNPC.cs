@@ -18,10 +18,13 @@ namespace TerrarianAbilites.NPCs
 		public bool slowed;
 		public static Texture2D crosshair;
 		public static Player currentPlayer;
+		public bool firstFrameFlag;
+		public Vector2 oldVel;
         public override void ResetEffects(NPC npc) {
 			stunned = false;
 			slowed = false;
-		}
+            firstFrameFlag = true;
+        }
 
 		public override void SetDefaults(NPC npc) {
 			markCount = 0;
@@ -141,11 +144,21 @@ namespace TerrarianAbilites.NPCs
 			{
 				lockCounter++;
 			}
-			if (lockCounter >= 600)
+			if (lockCounter >= 300)
 			{
 				locked = false;
 				lockCounter = 0;
 			}
+			if (slowed)
+			{
+				if (firstFrameFlag)
+				{
+                oldVel = npc.velocity;
+				firstFrameFlag = false;
+                }
+				npc.velocity = oldVel * 0.5f;
+			}
+
             base.PostAI(npc);
         }
     }
