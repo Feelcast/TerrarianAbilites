@@ -201,10 +201,14 @@ namespace TerrarianAbilites
 
 		public void MajorSkillPerform()
 		{
-			switch (MajorSkill.Name)
+            Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
+            switch (MajorSkill.Name)
 			{
 				case "Monster dash":
-					break;
+                    Terraria.Audio.SoundEngine.PlaySound(MajorSkill.UseSound, Player.Center);
+					Player.velocity = shootDirection * MajorSkill.shootSpeed;
+                    Projectile.NewProjectile(MajorSkill.GetSource_Accessory(MajorSkill), new Vector2(Player.Center.X+4f,Player.Center.Y), shootDirection * MajorSkill.shootSpeed, MajorSkill.shoot, MajorSkill.damage, MajorSkill.knockBack, Player.whoAmI, 0, 0);
+                    break;
 			}
 
 		}

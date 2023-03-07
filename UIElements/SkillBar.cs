@@ -16,6 +16,7 @@ namespace TerrarianAbilites.UI
 		public MinorSkillSlot minorSkillSlot;
         public SkillTwoSlot skillTwoSlot;
         public SkillThreeSlot skillThreeSlot;
+        public MajorSkillSlot majorSkillSlot;
 		public static bool Visible;
 
 		public override void OnInitialize()
@@ -38,10 +39,17 @@ namespace TerrarianAbilites.UI
             skillThreeSlot.Width.Set(20f, 0f);
             skillThreeSlot.Height.Set(20f, 0f);
 
+            majorSkillSlot = new MajorSkillSlot();
+            majorSkillSlot.Left.Set(765f, 0f);
+            majorSkillSlot.Top.Set(20f, 0f);
+            majorSkillSlot.Width.Set(20f, 0f);
+            majorSkillSlot.Height.Set(20f, 0f);
+
 
             Append(minorSkillSlot);
             Append(skillTwoSlot);
             Append(skillThreeSlot);
+            Append(majorSkillSlot);
 		}
 
 	}
