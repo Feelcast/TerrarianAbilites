@@ -158,6 +158,11 @@ namespace TerrarianAbilites.NPCs
                 }
 				npc.velocity = oldVel * 0.5f;
 			}
+			if (skillPlayer.corruptedAuraOne && Vector2.Distance(npc.Center,currentPlayer.Center) <= 100f)
+			{
+				npc.AddBuff(BuffID.CursedInferno, 2);
+			}
+
 
             base.PostAI(npc);
         }

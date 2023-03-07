@@ -30,15 +30,19 @@ namespace TerrarianAbilites
 		public int SkillTwoCD;
 		public int SkillThreeCD;
 		public int MajorSkillCD;
+		public int corruptedAreaTimer;
 		public static ModKeybind MinorSkillKey;
 		public static ModKeybind SkillTwoKey;
 		public static ModKeybind SkillThreeKey;
 		public static ModKeybind MajorSkillKey;
 		public bool canLock;
 		public bool canDemonMark;
+		public bool corruptedAuraOne;
 		public  static List<String> projectileBasedMinor = new List<String> { "Fire spark", "Geode thrower" };
         public static List<String> projectileBasedTwo = new List<String> { "Cold spark", "Electric zap" };
         public static List<String> projectileBasedThree = new List<String> { "Seed blast", "Plasma bomb" };
+        public static Texture2D AuraArea;
+
         public override void ResetEffects() {
 			
 		}
@@ -53,6 +57,8 @@ namespace TerrarianAbilites
 			SkillTwoCD = 0;
 			SkillThreeCD = 0;
 			MajorSkillCD = 0;
+            AuraArea = ModContent.Request<Texture2D>("TerrarianAbilites/Sprites/corruptedAuraArea").Value;
+			
             base.Initialize();
         }
         public override void OnEnterWorld(Player player) {
@@ -97,10 +103,10 @@ namespace TerrarianAbilites
 		}
 
 		public override void FrameEffects() {
-		}
+           
+        }
 
-
-		public override void OnConsumeMana(Item item, int manaConsumed) {
+        public override void OnConsumeMana(Item item, int manaConsumed) {
 		}
 
         public override void PreUpdate()
@@ -157,14 +163,23 @@ namespace TerrarianAbilites
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Duck, Player.Center);
                 }
 			}
+			if (corruptedAreaTimer <= 0)
+			{
+				corruptedAuraOne = false;
+			}
 			MinorSkillCD --;
 			SkillTwoCD --;
 			SkillThreeCD --;
 			MajorSkillCD --;
+			corruptedAreaTimer --;
             base.PreUpdate();
         }
+        public override void PostUpdate()
+        {
+            base.PostUpdate();
+        }
 
-		public void MinorSkillPerform()
+        public void MinorSkillPerform()
 		{
             Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
             if (projectileBasedMinor.Contains(MinorSkill.Name))
@@ -209,8 +224,28 @@ namespace TerrarianAbilites
 					Player.velocity = shootDirection * MajorSkill.shootSpeed;
                     Projectile.NewProjectile(MajorSkill.GetSource_Accessory(MajorSkill), new Vector2(Player.Center.X+4f,Player.Center.Y), shootDirection * MajorSkill.shootSpeed, MajorSkill.shoot, MajorSkill.damage, MajorSkill.knockBack, Player.whoAmI, 0, 0);
                     break;
+				case "Corrupted aura":
+                    Terraria.Audio.SoundEngine.PlaySound(MajorSkill.UseSound, Player.Center);
+					corruptedAuraOne = true;
+					corruptedAreaTimer = 900;
+                    break;
 			}
 
 		}
+
+        public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        {
+			if (corruptedAuraOne)
+			{
+                Rectangle frame = new Rectangle(0, 0, AuraArea.Width, AuraArea.Height);
+                Vector2 origin = new Vector2(AuraArea.Width * 0.5f, AuraArea.Height * 0.5f);
+                DrawData value = new DrawData(AuraArea, Player.Center - Main.screenPosition, frame, Color.MediumPurple, 0, origin, 1f, drawInfo.playerEffect, 0);
+				drawInfo.DrawDataCache.Add(value);
+            }
+
+            base.DrawEffects(drawInfo, ref r, ref g, ref b, ref a, ref fullBright);
+        }
+
+
     }
 }

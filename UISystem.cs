@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria;
 using TerrarianAbilites.UI;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrarianAbilites
 {
@@ -15,12 +16,24 @@ namespace TerrarianAbilites
     {
         internal SkillBar skillBar;
         private UserInterface _skillBar;
+        public static Player currentPlayer;
+        //public static Texture2D AuraArea;
         public override void Load()
         {
             skillBar = new SkillBar();
             skillBar.Activate();
             _skillBar = new UserInterface();
             _skillBar.SetState(skillBar);
+        }
+        public override void OnModLoad()
+        {
+            //AuraArea = ModContent.Request<Texture2D>("TerrarianAbilites/Sprites/corruptedAuraArea").Value;
+            base.OnModLoad();
+        }
+        public override void OnWorldLoad()
+        {
+            //currentPlayer = Main.player[Main.myPlayer];
+            base.OnWorldLoad();
         }
 
         public override void Unload()
@@ -49,6 +62,17 @@ namespace TerrarianAbilites
                     InterfaceScaleType.UI)
                 );
             }
+            /*
+            TAModPlayer skillPlayer = currentPlayer.GetModPlayer<TAModPlayer>();
+            if (skillPlayer.corruptedAuraOne)
+            {
+                Rectangle frame = new Rectangle(0, 0, AuraArea.Width, AuraArea.Height);
+                Vector2 origin = new Vector2(AuraArea.Width * 0.5f, AuraArea.Height * 0.5f);
+                Main.EntitySpriteDraw(AuraArea, currentPlayer.Center, frame, default(Color), 0, origin, 1f, SpriteEffects.None, 0);
+            }
+            */
+
         }
+
     }
 }
