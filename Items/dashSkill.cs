@@ -32,7 +32,8 @@ namespace TerrarianAbilites.Items
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.EoCShield, 1);
-			recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ModContent.ItemType<MemoryVial>(), 1);
+            recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();
 		}
 	}

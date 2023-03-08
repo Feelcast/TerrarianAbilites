@@ -32,7 +32,10 @@ namespace TerrarianAbilites.Items
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.WormScarf, 1);
-			recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ItemID.Deathweed, 1);
+            recipe.AddIngredient(ItemID.RottenChunk, 1);
+            recipe.AddIngredient(ModContent.ItemType<MemoryVial>(), 1);
+            recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();
 		}
 	}

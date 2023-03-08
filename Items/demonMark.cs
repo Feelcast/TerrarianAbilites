@@ -32,7 +32,9 @@ namespace TerrarianAbilites.Items
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.HellstoneBar, 5);
-			recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ItemID.Fireblossom, 5);
+            recipe.AddIngredient(ModContent.ItemType<MemoryVial>(), 1);
+            recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();
 		}
 	}

@@ -17,7 +17,10 @@ namespace TerrarianAbilites.Buffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.GetGlobalNPC<TAGlobalNPC>().slowed = true;
+            if (!npc.boss)
+            {
+                npc.GetGlobalNPC<TAGlobalNPC>().slowed = true;
+            }
             base.Update(npc, ref buffIndex);
         }
     }

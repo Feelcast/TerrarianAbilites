@@ -201,18 +201,27 @@ namespace TerrarianAbilites
 		public void SkillThreePerform()
 		{
             Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
-            switch (SkillThree.Name)
+            if (projectileBasedThree.Contains(SkillThree.Name))
+            {
+                Terraria.Audio.SoundEngine.PlaySound(SkillThree.UseSound, Player.Center);
+                Projectile.NewProjectile(SkillThree.GetSource_Accessory(SkillThree), Player.Center, shootDirection * SkillThree.shootSpeed, SkillThree.shoot, SkillThree.damage, Player.whoAmI, 0, 0);
+            }
+			else
 			{
-				case "Demon mark":
-                    Terraria.Audio.SoundEngine.PlaySound(SkillThree.UseSound, Player.Center);
-                    canDemonMark = true;
-					break;
-				case "Bullseye lock":
-                    Terraria.Audio.SoundEngine.PlaySound(SkillThree.UseSound, Player.Center);
-                    canLock = true;
-					break;
-			}
-		}
+                switch (SkillThree.Name)
+                {
+                    case "Demon mark":
+                        Terraria.Audio.SoundEngine.PlaySound(SkillThree.UseSound, Player.Center);
+                        canDemonMark = true;
+                        break;
+                    case "Bullseye lock":
+                        Terraria.Audio.SoundEngine.PlaySound(SkillThree.UseSound, Player.Center);
+                        canLock = true;
+                        break;
+                }
+
+            }
+        }
 
 		public void MajorSkillPerform()
 		{
@@ -226,6 +235,8 @@ namespace TerrarianAbilites
                     break;
 				case "Corrupted aura":
                     Terraria.Audio.SoundEngine.PlaySound(MajorSkill.UseSound, Player.Center);
+					Player.AddBuff(BuffID.Endurance, 900);
+					Player.AddBuff(BuffID.Wrath, 900);
 					corruptedAuraOne = true;
 					corruptedAreaTimer = 900;
                     break;
