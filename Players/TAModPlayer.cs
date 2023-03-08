@@ -115,9 +115,7 @@ namespace TerrarianAbilites
 			{
 				if (MinorSkillCD <= 0)
 				{
-                    MinorSkillPerform();
-					MinorSkillCD = 120;
-					Player.AddBuff(ModContent.BuffType<depletedOne>(), 120);
+                    MinorSkillPerform();				
                 }
                 else
 				{
@@ -129,8 +127,6 @@ namespace TerrarianAbilites
                 if (SkillTwoCD <= 0)
                 {
                     SkillTwoPerform();
-                    SkillTwoCD = 300;
-                    Player.AddBuff(ModContent.BuffType<depletedTwo>(), 300);
                 }
                 else
                 {
@@ -186,7 +182,9 @@ namespace TerrarianAbilites
 			{
 				Terraria.Audio.SoundEngine.PlaySound(MinorSkill.UseSound, Player.Center);
 				Projectile.NewProjectile(MinorSkill.GetSource_Accessory(MinorSkill), Player.Center, shootDirection*MinorSkill.shootSpeed, MinorSkill.shoot, MinorSkill.damage, MinorSkill.knockBack, Player.whoAmI, 0, 0);
-			}
+                MinorSkillCD = 120;
+                Player.AddBuff(ModContent.BuffType<depletedOne>(), 120);
+            }
 		}
 		public void SkillTwoPerform()
 		{
@@ -195,6 +193,8 @@ namespace TerrarianAbilites
             {
                 Terraria.Audio.SoundEngine.PlaySound(SkillTwo.UseSound, Player.Center);
                 Projectile.NewProjectile(SkillTwo.GetSource_Accessory(SkillTwo), Player.Center, shootDirection * SkillTwo.shootSpeed, SkillTwo.shoot, SkillTwo.damage, Player.whoAmI, 0, 0);
+                SkillTwoCD = 300;
+                Player.AddBuff(ModContent.BuffType<depletedTwo>(), 300);
             }
         }
 
