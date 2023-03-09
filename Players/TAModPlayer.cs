@@ -240,7 +240,17 @@ namespace TerrarianAbilites
 					corruptedAuraOne = true;
 					corruptedAreaTimer = 900;
                     break;
-			}
+				case "Vital sphere":
+                    Terraria.Audio.SoundEngine.PlaySound(MajorSkill.UseSound, Player.Center);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, Player.Center);
+                    Projectile.NewProjectile(MajorSkill.GetSource_Accessory(MajorSkill), new Vector2(Player.Center.X + 4f, Player.Center.Y), shootDirection * MajorSkill.shootSpeed, MajorSkill.shoot, MajorSkill.damage, MajorSkill.knockBack, Player.whoAmI, 0, 0);
+                    break;
+                case "Final spark":
+                    Terraria.Audio.SoundEngine.PlaySound(MajorSkill.UseSound, Player.Center);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, Player.Center);
+                    Projectile.NewProjectile(MajorSkill.GetSource_Accessory(MajorSkill), new Vector2(Player.Center.X + 4f, Player.Center.Y), shootDirection * MajorSkill.shootSpeed, MajorSkill.shoot, MajorSkill.damage, MajorSkill.knockBack, Player.whoAmI, 0, 0);
+                    break;
+            }
 
 		}
 
