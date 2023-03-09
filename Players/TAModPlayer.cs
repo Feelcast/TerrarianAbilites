@@ -196,6 +196,22 @@ namespace TerrarianAbilites
                 SkillTwoCD = 300;
                 Player.AddBuff(ModContent.BuffType<depletedTwo>(), 300);
             }
+            else
+            {
+                switch(SkillTwo.Name)
+                {
+                    case "Air slash":
+                        Terraria.Audio.SoundEngine.PlaySound(SkillTwo.UseSound, Player.Center);
+                        if (Math.Abs(shootDirection.AngleFrom(Vector2.UnitY)) <=0.5f || Math.Abs(shootDirection.AngleTo(Vector2.UnitY)) <= 0.5f)
+                        {
+                            Player.velocity -= shootDirection * 16f;
+                        }
+                        Projectile.NewProjectile(SkillTwo.GetSource_Accessory(SkillTwo), Player.Center, shootDirection * SkillTwo.shootSpeed, SkillTwo.shoot, SkillTwo.damage, Player.whoAmI, 0, 0);
+                        SkillTwoCD = 300;
+                        Player.AddBuff(ModContent.BuffType<depletedTwo>(), 300);
+                        break;
+                }
+            }
         }
 
 		public void SkillThreePerform()

@@ -6,10 +6,10 @@ using Terraria.ModLoader;
 
 namespace TerrarianAbilites.Projectiles
 {
-	public class ExampleBullet : ModProjectile
+	public class airSlashP : ModProjectile
 	{
 		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Example Bullet");     //The English name of the projectile
+			DisplayName.SetDefault("Air slash");     //The English name of the projectile
 			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;    //The length of old position to be recorded
 			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;        //The recording mode
 		}
@@ -22,9 +22,9 @@ namespace TerrarianAbilites.Projectiles
             Projectile.hostile = false;         //Can the projectile deal damage to the player?
             //Projectile.ranged = true;           //Is the projectile shoot by a ranged weapon?
             Projectile.penetrate = 5;           //How many monsters the projectile can penetrate. (OnTileCollide below also decrements penetrate for bounces as well)
-            Projectile.timeLeft = 600;          //The live time for the projectile (60 = 1 second, so 600 is 10 seconds)
-            Projectile.alpha = 255;             //The transparency of the projectile, 255 for completely transparent. (aiStyle 1 quickly fades the projectile in) Make sure to delete this if you aren't using an aiStyle that fades in. You'll wonder why your projectile is invisible.
-            Projectile.light = 0.5f;            //How much light emit around the projectile
+            Projectile.timeLeft = 60;          //The live time for the projectile (60 = 1 second, so 600 is 10 seconds)
+            Projectile.alpha = 100;             //The transparency of the projectile, 255 for completely transparent. (aiStyle 1 quickly fades the projectile in) Make sure to delete this if you aren't using an aiStyle that fades in. You'll wonder why your projectile is invisible.
+            //Projectile.light = 0.5f;            //How much light emit around the projectile
             Projectile.ignoreWater = true;          //Does the projectile's speed be influenced by water?
             Projectile.tileCollide = true;          //Can the projectile collide with tiles?
             Projectile.extraUpdates = 1;            //Set to above 0 if you want the projectile to update multiple time in a frame
