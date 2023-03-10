@@ -40,7 +40,7 @@ namespace TerrarianAbilites
 		public bool corruptedAuraOne;
 		public  static List<String> projectileBasedMinor = new List<String> { "Fire spark", "Geode thrower" };
         public static List<String> projectileBasedTwo = new List<String> { "Cold spark", "Electric zap" };
-        public static List<String> projectileBasedThree = new List<String> { "Seed blast", "Plasma bomb" };
+        public static List<String> projectileBasedThree = new List<String> { "Seed blast", "Plasma bomb", "Light anomaly" };
         public static Texture2D AuraArea;
 
         public override void ResetEffects() {
@@ -220,7 +220,7 @@ namespace TerrarianAbilites
             if (projectileBasedThree.Contains(SkillThree.Name))
             {
                 Terraria.Audio.SoundEngine.PlaySound(SkillThree.UseSound, Player.Center);
-                Projectile.NewProjectile(SkillThree.GetSource_Accessory(SkillThree), Player.Center, shootDirection * SkillThree.shootSpeed, SkillThree.shoot, SkillThree.damage, Player.whoAmI, 0, 0);
+                Projectile.NewProjectile(SkillThree.GetSource_Accessory(SkillThree), Player.Center, shootDirection * SkillThree.shootSpeed, SkillThree.shoot, SkillThree.damage, Player.whoAmI, 0, 0);            
             }
 			else
 			{
@@ -283,6 +283,22 @@ namespace TerrarianAbilites
             base.DrawEffects(drawInfo, ref r, ref g, ref b, ref a, ref fullBright);
         }
 
+        public override void SaveData(TagCompound tag)
+        {
+            tag["MinorSkill"] = MinorSkill;
+            tag["SkillTwo"] = SkillTwo;
+            tag["SkillThree"] = SkillThree;
+            tag["MajorSkill"] = MajorSkill;
+            base.SaveData(tag);
+
+        }
+        public override void LoadData(TagCompound tag)
+        {
+            MinorSkill = tag.Get<Item>("MinorSkill");
+            SkillTwo = tag.Get<Item>("SkillTwo");
+            SkillThree = tag.Get<Item>("SkillThree");
+            MajorSkill = tag.Get<Item>("MajorSkill");
+        }
 
     }
 }

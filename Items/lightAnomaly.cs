@@ -1,15 +1,16 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrarianAbilites.Projectiles;
 
 namespace TerrarianAbilites.Items
 {
-	public class rockSkill : ModItem
+	public class lightAnomaly : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			// DisplayName.SetDefault("sword"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-			Tooltip.SetDefault("Throws an spherical rock");
+			Tooltip.SetDefault("This is a basic modded sword.");
 		}
 
 		public override void SetDefaults()
@@ -22,17 +23,18 @@ namespace TerrarianAbilites.Items
 			Item.knockBack = 6;
 			Item.value = 10000;
 			Item.rare = ItemRarityID.Green;
-			Item.UseSound = SoundID.Dig;
-			Item.shoot = ProjectileID.CannonballFriendly;
+			Item.UseSound = SoundID.Item8;
+			Item.shoot = ModContent.ProjectileType<LightAnomalyP>();
 			Item.shootSpeed = 16f;
-			Item.SetNameOverride("Rock thrower");
+			Item.SetNameOverride("Light anomaly");
 		}
 
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.StoneBlock, 5);
-			recipe.AddTile(TileID.WorkBenches);
+			recipe.AddIngredient(ItemID.NebulaBlaze, 1);
+            recipe.AddIngredient(ModContent.ItemType<MemoryVial>(), 1);
+            recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();
 		}
 	}

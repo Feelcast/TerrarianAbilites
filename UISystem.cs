@@ -17,6 +17,7 @@ namespace TerrarianAbilites
         internal SkillBar skillBar;
         private UserInterface _skillBar;
         public static Player currentPlayer;
+        TAModPlayer skillPlayer;
         //public static Texture2D AuraArea;
         public override void Load()
         {
@@ -30,16 +31,24 @@ namespace TerrarianAbilites
             //AuraArea = ModContent.Request<Texture2D>("TerrarianAbilites/Sprites/corruptedAuraArea").Value;
             base.OnModLoad();
         }
-        public override void OnWorldLoad()
+        public override void PostWorldGen()
         {
-            //currentPlayer = Main.player[Main.myPlayer];
-            base.OnWorldLoad();
+            currentPlayer = Main.player[Main.myPlayer];
+            skillPlayer = currentPlayer.GetModPlayer<TAModPlayer>();
+            skillBar.minorSkillSlot.Item = skillPlayer.MinorSkill;
+            skillBar.skillTwoSlot.Item = skillPlayer.SkillTwo;
+            skillBar.skillThreeSlot.Item = skillPlayer.SkillThree;
+            skillBar.majorSkillSlot.Item = skillPlayer.MajorSkill;
+            base.PostWorldGen();
         }
-
         public override void Unload()
         {
             skillBar = null;
             base.Unload();
+        }
+        public override void PostSetupContent()
+        {            
+            base.PostSetupContent();
         }
 
         public override void UpdateUI(GameTime gameTime)
@@ -71,6 +80,7 @@ namespace TerrarianAbilites
                 Main.EntitySpriteDraw(AuraArea, currentPlayer.Center, frame, default(Color), 0, origin, 1f, SpriteEffects.None, 0);
             }
             */
+
 
         }
 
