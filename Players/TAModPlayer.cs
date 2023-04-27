@@ -31,6 +31,7 @@ namespace TerrarianAbilites
 		public int SkillThreeCD;
 		public int MajorSkillCD;
 		public int corruptedAreaTimer;
+        public int genCounterOne;
 		public static ModKeybind MinorSkillKey;
 		public static ModKeybind SkillTwoKey;
 		public static ModKeybind SkillThreeKey;
@@ -38,6 +39,7 @@ namespace TerrarianAbilites
 		public bool canLock;
 		public bool canDemonMark;
 		public bool corruptedAuraOne;
+        public bool usingNecromancy;
 		public  static List<String> projectileBasedMinor = new List<String> { "Fire spark", "Geode thrower" };
         public static List<String> projectileBasedTwo = new List<String> { "Cold spark", "Electric zap" };
         public static List<String> projectileBasedThree = new List<String> { "Seed blast", "Plasma bomb", "Light anomaly" };
@@ -57,7 +59,10 @@ namespace TerrarianAbilites
 			SkillTwoCD = 0;
 			SkillThreeCD = 0;
 			MajorSkillCD = 0;
+            corruptedAreaTimer = 0;
+            genCounterOne = 0;
             AuraArea = ModContent.Request<Texture2D>("TerrarianAbilites/Sprites/corruptedAuraArea").Value;
+
 			
             base.Initialize();
         }
@@ -266,6 +271,9 @@ namespace TerrarianAbilites
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, Player.Center);
                     Projectile.NewProjectile(MajorSkill.GetSource_Accessory(MajorSkill), new Vector2(Player.Center.X + 4f, Player.Center.Y), shootDirection * MajorSkill.shootSpeed, MajorSkill.shoot, MajorSkill.damage, MajorSkill.knockBack, Player.whoAmI, 0, 0);
                     break;
+                case "Necromancy I":
+                    usingNecromancy = true;
+                    break;
             }
 
 		}
@@ -298,6 +306,36 @@ namespace TerrarianAbilites
             SkillTwo = tag.Get<Item>("SkillTwo");
             SkillThree = tag.Get<Item>("SkillThree");
             MajorSkill = tag.Get<Item>("MajorSkill");
+        }
+
+        public override void PostUpdateMiscEffects()
+        {
+            if (usingNecromancy)
+            {
+                if (genCounterOne < 60)
+                {
+                    if (genCounterOne % 6 == 0)
+                    {
+                        Random thread = new Random();
+                        float rndX = thread.NextSingle();
+                        float rndY = thread.NextSingle();
+                        Vector2 randomDir = new Vector2(rndX - 0.5f, rndY - 0.5f);
+                        Vector2 norDir = Vector2.Normalize(randomDir);
+                        Vector2 shootDirection = Player.DirectionTo(Main.MouseWorld);
+                        Terraria.Audio.SoundEngine.PlaySound(MajorSkill.UseSound, Player.Center);
+                        Projectile.NewProjectile(MajorSkill.GetSource_Accessory(MajorSkill), new Vector2(Player.Center.X + 4f, Player.Center.Y), shootDirection * MajorSkill.shootSpeed, MajorSkill.shoot, MajorSkill.damage, MajorSkill.knockBack, Player.whoAmI, 0, 0);
+                        Projectile.NewProjectile(MajorSkill.GetSource_Accessory(MajorSkill), new Vector2(Player.Center.X + 4f, Player.Center.Y), norDir * 16f, ProjectileID.InsanityShadowFriendly, MajorSkill.damage, MajorSkill.knockBack, Player.whoAmI, 0, 0);
+                    }
+                    genCounterOne++;
+                }
+                else
+                {
+                    genCounterOne = 0;
+                    usingNecromancy = false;
+                }
+
+            }
+            base.PostUpdateMiscEffects(); 
         }
 
     }
